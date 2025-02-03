@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { Users } from "./entities/user.entity";
 import { UserRepository } from "./user.repository";
 import { HttpModule, HttpService } from "@nestjs/axios";
 import { JwtModule } from "@nestjs/jwt";
 import { ConnectToApi } from "../../helpers/connect-to-api.helper";
 import { AiService } from "../../helpers/ai.service";
+import {User} from "./entities/user.entity";
 
 @Module({
     imports: [
@@ -15,7 +15,7 @@ import { AiService } from "../../helpers/ai.service";
             secret: process.env.JWT_SECRET || 'F63FDB61-66FC-481C-80E2-91BCEAB59A6D',
             signOptions: { expiresIn: '8h' },
         }),
-        TypeOrmModule.forFeature([Users]),
+        TypeOrmModule.forFeature([User]),
         HttpModule,
     ],
     controllers: [UserController],

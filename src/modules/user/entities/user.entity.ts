@@ -1,13 +1,10 @@
-// src/users/entities/user.entity.ts
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import {Company} from "../../exhib/company/entities/company.entity";
 
-@Entity()
-export class Users {
+@Entity('users')
+export class User {
     @PrimaryGeneratedColumn()
     id: number;
-
-    @Column({ nullable: true })
-    instagram_id: string;
 
     @Column({ nullable: true })
     first_name: string;
@@ -57,4 +54,6 @@ export class Users {
     @Column()
     remember_token: string;
 
+    @OneToMany(() => Company, (company) => company.user)
+    companies: Company[];
 }

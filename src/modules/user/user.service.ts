@@ -8,7 +8,6 @@ import {
     UnauthorizedException,
 } from '@nestjs/common';
 import {UserRepository} from './user.repository';
-import {Users} from './entities/user.entity';
 import {HttpService} from '@nestjs/axios';
 import {ConfigService} from '@nestjs/config';
 import {JwtService} from '@nestjs/jwt';
@@ -18,6 +17,7 @@ import {firstValueFrom, lastValueFrom} from 'rxjs';
 import * as qs from 'qs';
 import {ConnectToApi} from "../../helpers/connect-to-api.helper";
 import logger from "../../logger";
+import {User} from "./entities/user.entity";
 
 @Injectable()
 export class UserService {
@@ -37,7 +37,7 @@ export class UserService {
     }
 
 
-    async register(data: Partial<Users>): Promise<Users> {
+    async register(data: Partial<User>): Promise<User> {
         try {
             logger.info('Registering user with data: ' + JSON.stringify(data));
             const user: any = await this.userRepository.create(data);
@@ -64,7 +64,7 @@ export class UserService {
         }
     }
 
-    async update(id: number, data: Partial<Users>): Promise<Users> {
+    async update(id: number, data: Partial<User>): Promise<User> {
         try {
             logger.info(`Updating user with ID: ${id}`);
             const user = await this.userRepository.findById(id);
@@ -97,11 +97,9 @@ export class UserService {
         }
     }
 
-    async findByMobile(mobile: string): Promise<Users | any> {
+    async findByMobile(mobile: string): Promise<User | any> {
         try {
-            logger.info(`Finding user by mobile: ${mobile}`);
             const user = await this.userRepository.findByUsername(mobile);
-            logger.info(`User found by mobile: ${mobile}`);
             return user;
         } catch (error: any) {
             logger.error(
@@ -112,10 +110,10 @@ export class UserService {
         }
     }
 
-    async registerUserIfNotRegistered(mobile: string): Promise<Users> {
+    async registerUserIfNotRegistered(mobile: string): Promise<User> {
         try {
             logger.info(`Registering user if not registered for mobile: ${mobile}`);
-            const user = new Users();
+            const user = new User();
             user.mobile = mobile;
             user.username = mobile;
             const registeredUser = await this.userRepository.create(user);
@@ -137,7 +135,7 @@ export class UserService {
         const smsToken: any = this.configService.get<string>('PARS_GREEN_TOKEN');
 
         const requestPayload = {
-            SmsBody: `*Soodsaz*\nYour OTP Code: ${otpCode}\n`,
+            SmsBody: `*Expomation* OTP Code: ${otpCode}\n`,
             Mobiles: [mobile],
         };
 
@@ -204,7 +202,7 @@ export class UserService {
         return this.jwtService.sign({sub: userId, id: userId, username});
     }
 
-    async findById(id: number): Promise<Users> {
+    async findById(id: number): Promise<User> {
         try {
             logger.info(`Finding user by ID: ${id}`);
             const user = await this.userRepository.findById(id);
@@ -220,10 +218,10 @@ export class UserService {
         }
     }
 
-    async createUserWithOtp(email: string, otpCode: string): Promise<Users> {
+    async createUserWithOtp(email: string, otpCode: string): Promise<User> {
         try {
             logger.info(`Creating user with OTP for email: ${email}`);
-            const user = new Users();
+            const user = new User();
             user.email = email;
             user.username = email;
             user.otp_code = otpCode;
@@ -341,7 +339,7 @@ export class UserService {
         email: string,
         otpCode: number,
         password: string,
-    ): Promise<Users | null> {
+    ): Promise<User | null> {
         try {
             logger.info(`Verifying user OTP for email: ${email}`);
             const user = await this.userRepository.findByEmail(email);
@@ -367,7 +365,7 @@ export class UserService {
         }
     }
 
-    async validateUser(email: string, password: string): Promise<Users | null> {
+    async validateUser(email: string, password: string): Promise<User | null> {
         try {
             logger.info(`Validating user with email: ${email}`);
             const user = await this.userRepository.findByEmail(email);
@@ -390,7 +388,7 @@ export class UserService {
         return this.jwtService.sign({sub: userId, email});
     }
 
-    async findByEmail(email: string): Promise<Users | null> {
+    async findByEmail(email: string): Promise<User | null> {
         try {
             logger.info(`Finding user by email: ${email}`);
             const user = await this.userRepository.findOneBy({email});
@@ -423,9 +421,9 @@ export class UserService {
         email: string,
         name: string,
         password: string,
-    ): Promise<Users> {
+    ): Promise<User> {
         const hashedPassword = await this.hashPassword(password);
-        const user = new Users();
+        const user = new User();
         user.email = email;
         user.username = email;
         user.first_name = name;
@@ -550,38 +548,6 @@ export class UserService {
         return password;
     }
 
-    async deauthorizeUser(userId: string): Promise<void> {
-        try {
-            // یافتن کاربر بر اساس userId و انجام عملیات لازم
-            const user = await this.userRepository.findOneBy({
-                instagram_id: userId,
-            });
-            if (user) {
-                // به‌روزرسانی یا حذف کاربر
-                // به عنوان مثال، حذف توکن‌ها و اطلاعات حساس کاربر
-                user.is_verified = false;
-                await this.userRepository.save(user);
-            }
-        } catch (error: any) {
-            console.error('Error deauthorizing user:', error);
-            throw new InternalServerErrorException('Error deauthorizing user');
-        }
-    }
-
-    async deleteUserData(userId: string): Promise<void> {
-        try {
-            // یافتن و حذف داده‌های کاربر
-            const user = await this.userRepository.findOneBy({
-                instagram_id: userId,
-            });
-            if (user) {
-                await this.userRepository.delete(user);
-            }
-        } catch (error: any) {
-            console.error('Error deleting user data:', error);
-            throw new InternalServerErrorException('Error deleting user data');
-        }
-    }
 
     async resetPasswordEmail(body: {
         email: string;
@@ -624,7 +590,7 @@ export class UserService {
         };
     }
 
-    async updateUserWithOtp(email: string, otpCode: string): Promise<Users> {
+    async updateUserWithOtp(email: string, otpCode: string): Promise<User> {
         try {
             logger.info(`Updating user with OTP for email: ${email}`);
             const user = await this.userRepository.findByEmail(email);
@@ -648,7 +614,7 @@ export class UserService {
         }
     }
 
-    async getUserProfile(userId: number): Promise<Partial<Users>> {
+    async getUserProfile(userId: number): Promise<Partial<User>> {
         try {
             const user = await this.userRepository.findById(userId);
             if (!user) {

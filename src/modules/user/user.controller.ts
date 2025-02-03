@@ -15,7 +15,6 @@ import {
 } from '@nestjs/common';
 import {ApiBearerAuth, ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags,} from '@nestjs/swagger';
 import {UserService} from './user.service';
-import {Users} from './entities/user.entity';
 import {Response} from 'express';
 import {AuthGuard} from '@nestjs/passport';
 import {JwtPayload} from '../auth/jwt.payload';
@@ -24,6 +23,8 @@ import * as crypto from 'crypto';
 import {v4 as uuidv4} from 'uuid';
 import {AiService} from "../../helpers/ai.service";
 import logger from "../../logger";
+import {User} from "./entities/user.entity";
+
 
 @ApiTags('Authentication')
 @Controller('user')
@@ -60,6 +61,7 @@ export class UserController {
 
         // Find user by mobile; if not found, register a new user and assign to 'user'
         let user = await this.userService.findByMobile(mobile);
+        console.log('User is find ::', user);
         let isFirstTime = false;
         if (!user) {
             user = await this.userService.registerUserIfNotRegistered(mobile);
@@ -147,9 +149,9 @@ export class UserController {
     @Post('register')
     @ApiOperation({ summary: 'Register a new user' })
     @ApiResponse({ status: 201, description: 'User registered successfully!' })
-    @ApiBody({ description: 'User data', type: Users })
+    @ApiBody({ description: 'User data', type: User })
     async register(
-        @Body(new ValidationPipe()) userData: Partial<Users>,
+        @Body(new ValidationPipe()) userData: Partial<User>,
     ): Promise<{ message: string }> {
         await this.userService.register(userData);
         logger.info(

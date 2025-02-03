@@ -1,19 +1,19 @@
 // src/users/user.repository.ts
 import { Injectable } from '@nestjs/common';
-import { Users } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import logger from "../../logger";
+import {User} from "./entities/user.entity";
 
 @Injectable()
 export class UserRepository {
     constructor(
-        @InjectRepository(Users)
-        private readonly userRepository: Repository<Users>,
+        @InjectRepository(User)
+        private readonly userRepository: Repository<User>,
     ) {}
 
 
-    async create(data: Partial<Users>): Promise<Users> {
+    async create(data: Partial<User>): Promise<User> {
         try {
             logger.info('Creating user with data: ' + JSON.stringify(data));
             const user = this.userRepository.create(data);
@@ -26,7 +26,7 @@ export class UserRepository {
         }
     }
 
-    async findByEmail(email: string): Promise<Users | null> {
+    async findByEmail(email: string): Promise<User | null> {
         try {
             logger.info(`Finding user by email: ${email}`);
             const user = await this.userRepository.findOneBy({ email });
@@ -38,7 +38,7 @@ export class UserRepository {
         }
     }
 
-    async findOneBy(conditions: Partial<Users>): Promise<Users | null> {
+    async findOneBy(conditions: Partial<User>): Promise<User | null> {
         try {
             logger.info(`Finding user with conditions: ${JSON.stringify(conditions)}`);
             const user = await this.userRepository.findOneBy(conditions);
@@ -50,7 +50,7 @@ export class UserRepository {
         }
     }
 
-    async save(user: Users): Promise<Users> {
+    async save(user: User): Promise<User> {
         try {
             logger.info(`Saving user: ${user.id}`);
             const savedUser = await this.userRepository.save(user);
@@ -62,7 +62,7 @@ export class UserRepository {
         }
     }
 
-    async update(user: Users, data: Partial<Users>): Promise<Users> {
+    async update(user: User, data: Partial<User>): Promise<User> {
         try {
             logger.info(`Updating user: ${user.id} with data: ${JSON.stringify(data)}`);
             const updatedUser = await this.userRepository.save({ ...user, ...data });
@@ -74,7 +74,7 @@ export class UserRepository {
         }
     }
 
-    async delete(user: Users): Promise<void> {
+    async delete(user: User): Promise<void> {
         try {
             logger.info(`Deleting user: ${user.id}`);
             await this.userRepository.remove(user);
@@ -85,7 +85,7 @@ export class UserRepository {
         }
     }
 
-    async findByUsername(username: string): Promise<Users | null> {
+    async findByUsername(username: string): Promise<User | null> {
         try {
             logger.info(`Finding user by username: ${username}`);
             const user = await this.userRepository.findOneBy({ username });
@@ -97,7 +97,7 @@ export class UserRepository {
         }
     }
 
-    async findById(id: number): Promise<Users | null> {
+    async findById(id: number): Promise<User | null> {
         try {
             logger.info(`Finding user by ID: ${id}`);
             const user = await this.userRepository.findOneBy({ id });
@@ -120,7 +120,7 @@ export class UserRepository {
         }
     }
 
-    async remove(user: Users): Promise<void> {
+    async remove(user: User): Promise<void> {
         try {
             logger.info(`Removing user: ${user.id}`);
             await this.userRepository.remove(user);
