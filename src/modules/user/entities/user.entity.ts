@@ -1,6 +1,7 @@
 import {Column, Entity, PrimaryGeneratedColumn, OneToMany} from 'typeorm';
 import {Company} from "../../exhib/company/entities/company.entity";
 import {Speaker} from "../../exhib/speaker/entities/speaker.entity";
+import {Expert} from "../../exhib/exhibition_expert/entities/expert.entity";
 
 @Entity('users')
 export class User {
@@ -57,6 +58,9 @@ export class User {
 
     @OneToMany(() => Company, (company) => company.user)
     companies: Company[];
+
+    @OneToMany(() => Expert, (expert) => expert.user, { cascade: true })
+    expertEvents: Expert[];
 
 
     @OneToMany(() => Speaker, (speaker) => speaker.user)

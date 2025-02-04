@@ -11,6 +11,7 @@ import {ExhibitionEventModule} from "./modules/exhib/exhibition-event/exhibition
 import {LocationModule} from "./modules/exhib/location/location.module";
 import {SpeakerModule} from "./modules/exhib/speaker/speaker.module";
 import {SubEventModule} from "./modules/exhib/sub-event/sub-event.module";
+import {ExpertModule} from "./modules/exhib/exhibition_expert/expert.module";
 
 const myModules = [
     UsersModule,
@@ -18,7 +19,8 @@ const myModules = [
     ExhibitionEventModule,
     LocationModule,
     SpeakerModule,
-    SubEventModule
+    SubEventModule,
+    ExpertModule
 ]
 
 @Module({
