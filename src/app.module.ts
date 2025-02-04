@@ -8,6 +8,14 @@ import { JwtStrategy } from "./modules/auth/jwt.strategy/jwt.strategy";
 import { AiService } from "./helpers/ai.service";
 import { CompanyModule } from "./modules/exhib/company/company.module";
 import {ExhibitionEventModule} from "./modules/exhib/exhibition-event/exhibition-event.module";
+import {LocationModule} from "./modules/exhib/location/location.module";
+
+const myModules = [
+    UsersModule,
+    CompanyModule,
+    ExhibitionEventModule,
+    LocationModule
+]
 
 @Module({
     imports: [
@@ -29,10 +37,9 @@ import {ExhibitionEventModule} from "./modules/exhib/exhibition-event/exhibition
             }),
             inject: [ConfigService],
         }),
-        UsersModule,
-        CompanyModule,
-        ExhibitionEventModule,
-        AuthModule,        HttpModule,
+        AuthModule,
+        HttpModule,
+        ...myModules
     ],
     controllers: [],
     providers: [JwtStrategy, AiService],
