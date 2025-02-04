@@ -11,7 +11,9 @@ import {
     JoinColumn, OneToMany
 } from 'typeorm';
 import {Company} from '../../company/entities/company.entity';
-import { Location } from '../../location/entities/location.entity';
+import {Location} from '../../location/entities/location.entity';
+import {Speaker} from '../../speaker/entities/speaker.entity';
+import {SubEvent} from "../../sub-event/entities/sub-event.entity";
 
 @Entity('exhibition_events')
 export class ExhibitionEvent {
@@ -79,8 +81,8 @@ export class ExhibitionEvent {
     @JoinColumn({name: 'organizer_id'})
     organizer: Company;
 
-    @ManyToOne(() => Company, (company) => company.events, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'company_id' })
+    @ManyToOne(() => Company, (company) => company.events, {onDelete: 'CASCADE'})
+    @JoinColumn({name: 'company_id'})
     company: Company;
 
     @ManyToOne(() => ExhibitionEvent, (event) => event.childEvents, {nullable: true, onDelete: 'SET NULL'})
@@ -90,16 +92,26 @@ export class ExhibitionEvent {
     @OneToMany(() => ExhibitionEvent, (event) => event.parentEvent)
     childEvents: ExhibitionEvent[];
 
-    @ManyToOne(() => Location, (location) => location.events, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'location_id' })
+    @ManyToOne(() => Location, (location) => location.events, {onDelete: 'CASCADE'})
+    @JoinColumn({name: 'location_id'})
     location: Location;
 
-    @CreateDateColumn({ type: 'timestamp' })
+    @OneToMany(() => SubEvent, (subEvent) => subEvent.parentEvent)
+    parentSubEvents: SubEvent[];
+
+    @OneToMany(() => SubEvent, (subEvent) => subEvent.childEvent)
+    childSubEvents: SubEvent[];
+
+    @OneToMany(() => Speaker, (speaker) => speaker.event, {cascade: true})
+    speakers: Speaker[];
+
+
+    @CreateDateColumn({type: 'timestamp'})
     created_at: Date;
 
-    @UpdateDateColumn({ type: 'timestamp' })
+    @UpdateDateColumn({type: 'timestamp'})
     updated_at: Date;
 
-    @DeleteDateColumn({ type: 'timestamp', nullable: true })
+    @DeleteDateColumn({type: 'timestamp', nullable: true})
     deleted_at: Date;
 }

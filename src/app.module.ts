@@ -9,12 +9,16 @@ import { AiService } from "./helpers/ai.service";
 import { CompanyModule } from "./modules/exhib/company/company.module";
 import {ExhibitionEventModule} from "./modules/exhib/exhibition-event/exhibition-event.module";
 import {LocationModule} from "./modules/exhib/location/location.module";
+import {SpeakerModule} from "./modules/exhib/speaker/speaker.module";
+import {SubEventModule} from "./modules/exhib/sub-event/sub-event.module";
 
 const myModules = [
     UsersModule,
     CompanyModule,
     ExhibitionEventModule,
-    LocationModule
+    LocationModule,
+    SpeakerModule,
+    SubEventModule
 ]
 
 @Module({

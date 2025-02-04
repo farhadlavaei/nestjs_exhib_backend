@@ -32,4 +32,5 @@ export class Location {
 
     @DeleteDateColumn({ type: 'timestamp', nullable: true })
     deleted_at: Date;
+
 }

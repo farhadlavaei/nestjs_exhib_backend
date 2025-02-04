@@ -55,15 +55,25 @@ export class LocationService {
      * Create a new location.
      * @param createLocationDto - Data transfer object for location creation.
      */
-    async createLocation(createLocationDto: CreateLocationDto): Promise<Location> {
+    async createLocation(createLocationDto: CreateLocationDto) {
         try {
-            const location = this.locationRepository.create(createLocationDto);
-            return await this.locationRepository.save(location);
+            console.log('Received DTO:', createLocationDto); // Log incoming data
+
+            const location = this.locationRepository.create({
+                ...createLocationDto,
+                created_at: new Date(),
+                updated_at: new Date(),
+            });
+
+            const savedLocation = await this.locationRepository.save(location);
+            console.log('Saved Location:', savedLocation); // Log saved data
+
+            return savedLocation;
         } catch (error) {
-            logger.error('Error creating location:', error);
-            throw new InternalServerErrorException('Failed to create location.');
+            throw new InternalServerErrorException('Error creating location', error.message);
         }
     }
+
 
     /**
      * Update an existing location.
