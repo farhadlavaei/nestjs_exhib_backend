@@ -14,6 +14,7 @@ import {SubEventModule} from "./modules/exhib/sub-event/sub-event.module";
 import {ExpertModule} from "./modules/exhib/exhibition_expert/expert.module";
 import {ExhibitionContractorModule} from "./modules/exhib/exhibition_contractor/exhibition-contractor.module";
 import {ContractorServiceModule} from "./modules/exhib/contractor-service/contractor-service.module";
+import {ExhibitionEventServiceModule} from "./modules/exhib/exhibition-event-service/exhibition-event-service.module";
 
 const myModules = [
     UsersModule,
@@ -24,7 +25,8 @@ const myModules = [
     SubEventModule,
     ExpertModule,
     ExhibitionContractorModule,
-    ContractorServiceModule
+    ContractorServiceModule,
+    ExhibitionEventServiceModule
 ]
 
 @Module({
