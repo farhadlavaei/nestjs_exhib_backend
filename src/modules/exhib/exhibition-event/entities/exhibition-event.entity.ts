@@ -16,6 +16,7 @@ import {Speaker} from '../../speaker/entities/speaker.entity';
 import {SubEvent} from "../../sub-event/entities/sub-event.entity";
 import {Expert} from "../../exhibition_expert/entities/expert.entity";
 import {ExhibitionContractor} from "../../exhibition_contractor/entities/exhibition-contractor.entity";
+import {ContractorService} from "../../contractor-service/entities/contractor-service.entity";
 
 @Entity('exhibition_events')
 export class ExhibitionEvent {
@@ -112,6 +113,9 @@ export class ExhibitionEvent {
 
     @OneToMany(() => ExhibitionContractor, (contractor) => contractor.event, { cascade: true })
     contractors: ExhibitionContractor[];
+
+    @OneToMany(() => ContractorService, (contractorService) => contractorService.exhibition, { cascade: true })
+    contractorServices: ContractorService[];
 
     @CreateDateColumn({type: 'timestamp'})
     created_at: Date;

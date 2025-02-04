@@ -13,6 +13,7 @@ import {SpeakerModule} from "./modules/exhib/speaker/speaker.module";
 import {SubEventModule} from "./modules/exhib/sub-event/sub-event.module";
 import {ExpertModule} from "./modules/exhib/exhibition_expert/expert.module";
 import {ExhibitionContractorModule} from "./modules/exhib/exhibition_contractor/exhibition-contractor.module";
+import {ContractorServiceModule} from "./modules/exhib/contractor-service/contractor-service.module";
 
 const myModules = [
     UsersModule,
@@ -22,7 +23,8 @@ const myModules = [
     SpeakerModule,
     SubEventModule,
     ExpertModule,
-    ExhibitionContractorModule
+    ExhibitionContractorModule,
+    ContractorServiceModule
 ]
 
 @Module({

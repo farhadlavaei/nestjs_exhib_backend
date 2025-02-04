@@ -5,10 +5,11 @@ import {
     CreateDateColumn,
     UpdateDateColumn,
     DeleteDateColumn,
-    JoinColumn
+    JoinColumn, OneToMany
 } from 'typeorm';
 import { ExhibitionEvent } from '../../exhibition-event/entities/exhibition-event.entity';
 import {Company} from "../../company/entities/company.entity";
+import {ContractorService} from "../../contractor-service/entities/contractor-service.entity";
 
 @Entity('exhibition_contractor')
 export class ExhibitionContractor {
@@ -22,6 +23,9 @@ export class ExhibitionContractor {
     @ManyToOne(() => Company, (company) => company.exhibitionContracts, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'company_id' })
     company: Company;
+
+    @OneToMany(() => ContractorService, (contractorService) => contractorService.contractor, { cascade: true })
+    contractorServices: ContractorService[];
 
     @CreateDateColumn()
     created_at: Date;
