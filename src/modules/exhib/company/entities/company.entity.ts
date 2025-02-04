@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import {User} from "../../../user/entities/user.entity";
 import {ExhibitionEvent} from "../../exhibition-event/entities/exhibition-event.entity";
+import {ExhibitionContractor} from "../../exhibition_contractor/entities/exhibition-contractor.entity";
 
 @Entity('companies')
 export class Company {
@@ -206,6 +207,14 @@ export class Company {
     @OneToMany(() => ExhibitionEvent, (event) => event.organizer)
     organizedEvents: ExhibitionEvent[];
 
+    @ManyToOne(() => User, (user) => user.companies, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'user_id' })
+    user: User;
+
+    @OneToMany(() => ExhibitionContractor, (contractor) => contractor.company, { cascade: true })
+    exhibitionContracts: ExhibitionContractor[];
+
+
     @CreateDateColumn({ type: 'timestamp' })
     created_at: Date;
 
@@ -214,9 +223,4 @@ export class Company {
 
     @DeleteDateColumn({ type: 'timestamp', nullable: true })
     deleted_at: Date;
-
-    @ManyToOne(() => User, (user) => user.companies, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'user_id' })
-    user: User;
-
 }

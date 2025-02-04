@@ -15,6 +15,7 @@ import {Location} from '../../location/entities/location.entity';
 import {Speaker} from '../../speaker/entities/speaker.entity';
 import {SubEvent} from "../../sub-event/entities/sub-event.entity";
 import {Expert} from "../../exhibition_expert/entities/expert.entity";
+import {ExhibitionContractor} from "../../exhibition_contractor/entities/exhibition-contractor.entity";
 
 @Entity('exhibition_events')
 export class ExhibitionEvent {
@@ -108,6 +109,9 @@ export class ExhibitionEvent {
 
     @OneToMany(() => Expert, (expert) => expert.event, { cascade: true })
     experts: Expert[];
+
+    @OneToMany(() => ExhibitionContractor, (contractor) => contractor.event, { cascade: true })
+    contractors: ExhibitionContractor[];
 
     @CreateDateColumn({type: 'timestamp'})
     created_at: Date;
