@@ -17,6 +17,8 @@ import {SubEvent} from "../../sub-event/entities/sub-event.entity";
 import {Expert} from "../../exhibition_expert/entities/expert.entity";
 import {ExhibitionContractor} from "../../exhibition_contractor/entities/exhibition-contractor.entity";
 import {ContractorService} from "../../contractor-service/entities/contractor-service.entity";
+import {ExhibitionHall} from "../../exhibition-hall/entities/exhibition-hall.entity";
+import {ExhibitionBooth} from "../../exhibition-booth/entities/exhibition-booth.entity";
 
 @Entity('exhibition_events')
 export class ExhibitionEvent {
@@ -116,6 +118,18 @@ export class ExhibitionEvent {
 
     @OneToMany(() => ContractorService, (contractorService) => contractorService.exhibition, { cascade: true })
     contractorServices: ContractorService[];
+
+    @ManyToMany(() => ExhibitionHall, (hall) => hall.events)
+    @JoinTable({
+        name: 'exhibition_hall_exhibitions',
+        joinColumn: { name: 'exhibition_event_id', referencedColumnName: 'id' },
+        inverseJoinColumn: { name: 'exhibition_hall_id', referencedColumnName: 'id' },
+    })
+    halls: ExhibitionHall[];
+
+    @OneToMany(() => ExhibitionBooth, booth => booth.exhibition_event)
+    booths: ExhibitionBooth[];
+
 
     @CreateDateColumn({type: 'timestamp'})
     created_at: Date;

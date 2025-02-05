@@ -15,6 +15,8 @@ import {ExpertModule} from "./modules/exhib/exhibition_expert/expert.module";
 import {ExhibitionContractorModule} from "./modules/exhib/exhibition_contractor/exhibition-contractor.module";
 import {ContractorServiceModule} from "./modules/exhib/contractor-service/contractor-service.module";
 import {ExhibitionEventServiceModule} from "./modules/exhib/exhibition-event-service/exhibition-event-service.module";
+import {ExhibitionHallModule} from "./modules/exhib/exhibition-hall/exhibition-hall.module";
+import {ExhibitionBoothModule} from "./modules/exhib/exhibition-booth/exhibition-booth.module";
 
 const myModules = [
     UsersModule,
@@ -26,7 +28,9 @@ const myModules = [
     ExpertModule,
     ExhibitionContractorModule,
     ContractorServiceModule,
-    ExhibitionEventServiceModule
+    ExhibitionEventServiceModule,
+    ExhibitionHallModule,
+    ExhibitionBoothModule
 ]
 
 @Module({

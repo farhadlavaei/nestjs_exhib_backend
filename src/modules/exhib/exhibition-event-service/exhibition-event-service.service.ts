@@ -5,6 +5,7 @@ import {DetachServicesDto} from "./dto/detach-service.dto";
 
 @Injectable()
 export class ExhibitionEventServiceService {
+
     constructor(private readonly eventServiceRepo: ExhibitionEventServiceRepository) {}
 
     /**

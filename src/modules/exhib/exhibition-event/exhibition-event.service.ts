@@ -25,7 +25,7 @@ export class ExhibitionEventService {
     }
 
     async getEventById(id: number) {
-        const event = await this.exhibitionEventRepository.findOne({ where: { id }, relations: ['organizer', 'company'] });
+        const event = await this.exhibitionEventRepository.findOne({ where: { id }, relations: ['organizer', 'company','halls'] });
         if (!event) {
             throw new NotFoundException('Event not found.');
         }

@@ -10,6 +10,7 @@ import {
 import {User} from "../../../user/entities/user.entity";
 import {ExhibitionEvent} from "../../exhibition-event/entities/exhibition-event.entity";
 import {ExhibitionContractor} from "../../exhibition_contractor/entities/exhibition-contractor.entity";
+import {ExhibitionBooth} from "../../exhibition-booth/entities/exhibition-booth.entity";
 
 @Entity('companies')
 export class Company {
@@ -213,6 +214,9 @@ export class Company {
 
     @OneToMany(() => ExhibitionContractor, (contractor) => contractor.company, { cascade: true })
     exhibitionContracts: ExhibitionContractor[];
+
+    @OneToMany(() => ExhibitionBooth, booth => booth.company, { nullable: true })
+    booths: ExhibitionBooth[];
 
 
     @CreateDateColumn({ type: 'timestamp' })
